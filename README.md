@@ -71,13 +71,33 @@ The DUT is a single-clock synchronous FIFO with an asynchronous active-low reset
 
 The testbench is organized into standard UVM components. Sequences generate transactions, the driver applies stimulus to the DUT, and the monitor publishes sampled transactions to the scoreboard and coverage collector. A separate assertion module checks protocol and design properties.
 
-<div align="center">
-
-![UVM Testbench Architecture](UVM.png)
-
-*UVM verification environment architecture*
-
-</div>
+```mermaid
+flowchart TB
+    subgraph TOP["FIFO_top"]
+        subgraph TEST["FIFO_test"]
+            SEQS["Sequences<br/>rst, wr, rd, wr_rd x2"]
+            CFG["FIFO_config<br/>virtual interface handle"]
+            subgraph ENV["FIFO_env"]
+                subgraph AGT["FIFO_agent"]
+                    SQR["FIFO_sequencer"] --> DRV["FIFO_driver"]
+                    MON["FIFO_monitor"]
+                end
+                SB["FIFO_scoreboard<br/>golden model"]
+                COV["FIFO_coverage<br/>cg_FIFO, cg_rst"]
+            end
+        end
+        IF["FIFO_if<br/>virtual interface"]
+        DUT["FIFO (DUT)"]
+        SVA["FIFO_sva<br/>15 assertions"]
+    end
+    SEQS --> SQR
+    DRV -- "drives at negedge clk" --> IF
+    IF -- "samples at negedge clk" --> MON
+    IF <--> DUT
+    SVA -. "bind" .-> DUT
+    MON -- "analysis port" --> SB
+    MON -- "analysis port" --> COV
+```
 
 ### Main components
 
