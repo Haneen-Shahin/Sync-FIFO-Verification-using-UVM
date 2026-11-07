@@ -98,3 +98,9 @@ The testbench adheres to a strict, modular layered UVM class-based hierarchy, de
 * **Languages**: SystemVerilog, UVM 1.2, SVA
 * **Methodologies**: Constrained-Random Verification, Scoreboard-Based Self-Checking, Functional Coverage Modeling
 * **Simulator**: Siemens QuestaSim
+
+## 👤 Author
+
+**Haneen Fady Shahin**
+
+This project is open for **learning, educational use, and experimentation**. Feel free to study the design, modify it, or use it as a reference for similar academic projects.
